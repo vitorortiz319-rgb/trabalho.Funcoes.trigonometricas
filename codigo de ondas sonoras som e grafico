@@ -1,0 +1,80 @@
+import numpy as np
+import matplotlib.pyplot as plt
+import scipy.io.wavfile as wav
+
+# Configurações do som
+taxa = 44100
+duracao = input("Digite a duração do som em segundos (ex: 2): ")
+num_amostras = int(taxa * int(duracao))
+
+# Dicionário com funções matemáticas para o Python entender
+ambiente = {
+    "sin": np.sin, "cos": np.cos, "tan": np.tan,
+    "pi": np.pi, "sqrt": np.sqrt, "abs": np.abs,
+    "__builtins__": None
+}
+
+try:
+    print("--- GERADOR DE GRÁFICO SONORO ---")
+    # 1. Pede a função (exatamente como no GeoGebra)
+    func_str = input("Digite a função (em relação a 'x', ex: sin(x), cos(2*x), x**2): ")
+    
+    # 2. Pede até onde o gráfico vai
+    limite_str = input("Até qual valor de x o gráfico vai? (ex: 2*pi, 5*pi, 10): ")
+    
+    # 3. Calcula o limite do eixo X usando as regras matemáticas
+    x_max = eval(limite_str, ambiente)
+    
+    # 4. Cria o eixo X de zero até o limite escolhido, com a quantidade de pontos do áudio
+    x = np.linspace(0, x_max, num_amostras)
+    
+    # 5. Adiciona o 'x' no ambiente e calcula os valores do eixo Y
+    ambiente["x"] = x
+    y = eval(func_str, ambiente)
+
+    perguntagrafico = input("Deseja ver o gráfico? (s/n): ").strip().lower()
+    if perguntagrafico == 's':
+        # === PARTE DO GRÁFICO ===
+        plt.figure(figsize=(10, 4))
+        plt.plot(x, y, color='blue', linewidth=2)
+        plt.title(f"Gráfico de f(x) = {func_str} | De 0 a {limite_str}")
+        plt.xlabel("Eixo X")
+        plt.ylabel("Eixo Y (Controla a altura do som)")
+        plt.axhline(0, color='black', linewidth=0.8, linestyle='--')  # Linha do zero
+        plt.grid(True)
+        plt.show()  # Mostra o gráfico na tela
+
+    perguntasom = input("Deseja baixar o som? (s/n): ").strip().lower()
+    if perguntasom == 's':
+        # === PARTE DO SOM (SONIFICAÇÃO) ===
+        # Mapeia a altura do gráfico para a frequência do som (Pitch).
+        # O ponto mais baixo do gráfico será 200 Hz (grave) e o mais alto 800 Hz (agudo).
+        y_min, y_max = np.min(y), np.max(y)
+        
+        if y_max != y_min:
+            # np.interp converte a escala do Y para a escala de som (200Hz a 800Hz)
+            frequencias_instantaneas = np.interp(y, (y_min, y_max), (200, 800))
+        else:
+            # Se for uma linha reta constante
+            frequencias_instantaneas = np.full_like(y, 440)
+            
+        # Magia do som: para a frequência mudar em tempo real, calculamos a fase acumulada
+        fase = 2 * np.pi * np.cumsum(frequencias_instantaneas) / taxa
+        onda_audio = np.sin(fase)
+        
+        # 6. Salva o áudio
+        audio_int16 = np.int16(onda_audio * 32767)
+        wav.write("grafico_sonoro.wav", taxa, audio_int16)
+        
+        print(f"\n✓ Sucesso! O áudio foi salvo como 'grafico_sonoro.wav'.")
+        print(f"  Duração: {duracao} segundos")
+        print(f"  Frequência: 200Hz a 800Hz (mapeado do gráfico)")
+
+except ValueError as e:
+    print(f"\n✗ Erro de valor: Verifique se digitou números válidos.")
+    print(f"  Detalhe: {e}")
+except ZeroDivisionError:
+    print(f"\n✗ Erro: Divisão por zero. Verifique a função digitada.")
+except Exception as e:
+    print(f"\n✗ Erro ao gerar. Verifique se digitou a função usando 'x' (ex: sin(x)).")
+    print(f"  Detalhe do erro: {e}")
