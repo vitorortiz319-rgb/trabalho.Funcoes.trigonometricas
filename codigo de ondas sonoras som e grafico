@@ -78,4 +78,3 @@ except ZeroDivisionError:
 except Exception as e:
     print(f"\n✗ Erro ao gerar. Verifique se digitou a função usando 'x' (ex: sin(x)).")
     print(f"  Detalhe do erro: {e}")
-#teste
