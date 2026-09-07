@@ -2,14 +2,14 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # Dados da onda
-frequencia = 261.63  # Hz
+frequencia = float(input("Digite a frequência (Hz): "))
 amplitude = 1
 
 # Período em segundos
 periodo = 1 / frequencia
 
-# Tempo de 0 até 2 períodos
-tempo = np.linspace(0, 2 * periodo, 1000)
+# Tempo de 0 até 10 períodos
+tempo = np.linspace(0, 10 * periodo, 1000)
 
 # Onda senoidal
 onda = amplitude * np.sin(2 * np.pi * frequencia * tempo)
@@ -33,14 +33,14 @@ plt.axhline(-amplitude, linestyle=":")
 plt.axvline(periodo * 1000, linestyle="--")
 
 # Textos
-plt.text(periodo * 1000, 1.05, "1 período = 3,82 ms",
+plt.text(periodo * 1000, 1.05, f"1 período = {periodo * 1000:.2f} ms",
          ha="center")
 
 plt.text(0.1, 1.02, "Máximo = +1")
 plt.text(0.1, -0.98, "Mínimo = -1")
 
 # Títulos
-plt.title("Onda senoidal — 261,63 Hz")
+plt.title(f"Onda senoidal — {frequencia:.2f} Hz")
 plt.xlabel("Tempo (ms)")
 plt.ylabel("Amplitude")
 
