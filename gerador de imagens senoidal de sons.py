@@ -11,7 +11,7 @@ periodo = 1 / frequencia
 #codigo para mudar a escala do grafico dependendo da frquencia para ficar mais bonito
 if frequencia > 200:
     tempo = np.linspace(0, 12 * periodo, 1000)
-else:tempo = np.linspace(0, 4 * periodo, 1000)
+else:tempo = np.linspace(0, 7 * periodo, 1000)
 
 # Onda senoidal
 onda = amplitude * np.sin(2 * np.pi * frequencia * tempo)
@@ -39,7 +39,7 @@ plt.text(periodo * 1000, 1.05, f"1 período = {periodo * 1000:.2f} ms",
          ha="center")
 
 # Linhas dos períodos
-for i in range(1, 10):
+for i in range(1, 12):
     x = i * periodo * 1000
     plt.axvline(x, linestyle="--", alpha=0.4)
 
@@ -54,7 +54,7 @@ plt.annotate(
 plt.text(
     periodo * 500,
     -1.35,
-    f"P = {periodo * 1000:.2f} ms",
+    f"Período = {periodo * 1000:.2f} ms",
     ha="center"
 )
 
@@ -64,7 +64,7 @@ plt.xlabel("Tempo (ms)")
 plt.ylabel("Amplitude")
 plt.text(
     0.5, -0.18,
-    f"Máximo = {amplitude:.2f}    |    Mínimo = {-amplitude:.2f} |  periodo = {periodo * 1000:.2f} ms",
+    f"Máximo = {amplitude:.2f}    |    Mínimo = {-amplitude:.2f} |  Período = {periodo * 1000:.2f} ms",
     transform=plt.gca().transAxes,
     ha="center"
 )
