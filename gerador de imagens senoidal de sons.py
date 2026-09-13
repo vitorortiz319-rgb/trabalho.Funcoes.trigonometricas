@@ -8,7 +8,7 @@ amplitude = 1
 
 # Período em segundos
 periodo = 1 / frequencia
-
+#codigo para mudar a escala do grafico dependendo da frquencia para ficar mais bonito
 if frequencia > 200:
     tempo = np.linspace(0, 12 * periodo, 1000)
 else:tempo = np.linspace(0, 4 * periodo, 1000)
