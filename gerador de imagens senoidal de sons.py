@@ -25,18 +25,18 @@ plt.figure(figsize=(20, 10))
 plt.plot(tempo_ms, onda)
 
 # Linha centralw
-plt.axhline(0, linestyle="--")
+plt.axhline(0, linestyle="--", color="red")
 
 # Marcar máximo e mínimo (no caso, +1 e -1))
-plt.axhline(amplitude, linestyle=":")
-plt.axhline(-amplitude, linestyle=":")
+plt.axhline(amplitude, linestyle=":", color="green")
+plt.axhline(-amplitude, linestyle=":", color="green")
 
 # Marcar um período
 plt.axvline(periodo * 1000, linestyle="--")
 
-# Textos
-plt.text(periodo * 1000, 1.05, f"1 período = {periodo * 1000:.2f} ms",
-         ha="center")
+# desativado porque eu nao achei bonito mas fiquei com dó de excluir
+#plt.text(periodo * 1000, 1.05, f"1 período = {periodo * 1000:.2f} ms",
+        # ha="center")
 
 # Linhas dos períodos
 for i in range(1, 12):
