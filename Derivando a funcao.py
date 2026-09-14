@@ -12,7 +12,7 @@ amplitude = 1     # altura da onda
 tempo_atual = 0
 
 # Tamanho de cada passo que vamos dar no tempo
-passo_tempo = 0.000000000000001  # temoppo adiconado
+passo_tempo = 0.000000000000001  # tempo adicionado
 
 print("=" * 60)
 print("PROCURANDO ONDE A ONDA COMEÇA A SUBIR")
